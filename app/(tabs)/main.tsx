@@ -17,9 +17,9 @@ import {
 } from "tamagui";
 import defaultConfig from "@tamagui/config/v3";
 
-import { CurrencyApi, Currency } from '../api/currencyApi';
-import { CurrencyInput } from '../components/CurrencyInput';
-import { CurrencyDropdown } from '../components/CurrencyDropdown';
+import { CurrencyApi, Currency } from "../api/currencyApi";
+import { CurrencyInput } from "../components/CurrencyInput";
+import { CurrencyDropdown } from "../components/CurrencyDropdown";
 
 const { width } = Dimensions.get("window");
 const config = createTamagui(defaultConfig);
@@ -37,8 +37,8 @@ export default function App() {
       const currencies = await CurrencyApi.fetchSupportedCurrencies();
       setOptions(currencies);
       setIsLoading(false);
-    } catch (error:any) {
-      Alert.alert("Error", error.message);
+    } catch (error: any) {
+      Alert.alert("Error", "Failed to load currencies. Please try again.");
       setIsLoading(false);
     }
   };
@@ -55,22 +55,17 @@ export default function App() {
         finalCurrency.code,
         baseAmount
       );
-      setFinalAmount(convertedAmount);
-    } catch (error:any) {
-      Alert.alert("Error", error.message);
+      setFinalAmount(convertedAmount.toString());
+    } catch (error: any) {
+      Alert.alert("Error", "Conversion failed. Please try again.");
     }
   };
 
   const handleSwapCurrencies = () => {
     if (!baseCurrency || !finalCurrency) return;
 
-    const newBaseCurrency = finalCurrency;
-    const newFinalCurrency = baseCurrency;
-
-    setBaseCurrency(newBaseCurrency);
-    setFinalCurrency(newFinalCurrency);
-
-    convertCurrency();
+    setBaseCurrency(finalCurrency);
+    setFinalCurrency(baseCurrency);
   };
 
   useEffect(() => {
@@ -81,7 +76,7 @@ export default function App() {
     if (baseCurrency && finalCurrency && baseAmount) {
       convertCurrency();
     }
-  }, [baseCurrency, finalCurrency, baseAmount]);
+  }, [baseCurrency, finalCurrency]);
 
   if (isLoading) {
     return (
@@ -108,7 +103,9 @@ export default function App() {
           <YStack space="$3">
             <CurrencyInput
               value={baseAmount}
-              onChangeText={setBaseAmount}
+              onChangeText={(value) =>
+                !isNaN(Number(value)) ? setBaseAmount(value) : null
+              }
               placeholder="Enter Amount"
             />
 
@@ -116,6 +113,7 @@ export default function App() {
               options={options}
               onSelect={setBaseCurrency}
               placeholder="Select Base Currency"
+              selectedValue={baseCurrency}
             />
           </YStack>
 
@@ -138,6 +136,7 @@ export default function App() {
               options={options}
               onSelect={setFinalCurrency}
               placeholder="Select Final Currency"
+              selectedValue={finalCurrency}
             />
 
             <CurrencyInput
@@ -177,5 +176,5 @@ const styles = StyleSheet.create({
     color: "#333",
     textAlign: "center",
     marginBottom: 20,
-  }
+  },
 });
