@@ -22,6 +22,10 @@ cd currency-convertor
 ```bash
 npm install
 ```
+3. Copy .env.example file and enter EXCHANGE_RATE_API_KEY
+```bash
+cp .env.example .env
+```
 
 ## Running the Application
 
