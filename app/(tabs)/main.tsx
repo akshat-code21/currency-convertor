@@ -19,6 +19,8 @@ import {
   Button,
 } from "tamagui";
 import defaultConfig from "@tamagui/config/v3";
+import { EXCHANGE_RATE_API_KEY } from '@env';
+
 
 const { width, height } = Dimensions.get("window");
 const config = createTamagui(defaultConfig);
@@ -45,7 +47,7 @@ export default function App() {
   const getOptions = async () => {
     try {
       const response = await fetch(
-        "https://v6.exchangerate-api.com/v6/e62dba6edb2f60423c5dcedb/codes"
+        `https://v6.exchangerate-api.com/v6/${EXCHANGE_RATE_API_KEY}/codes`
       );
       const json: { supported_codes: [string, string][] } =
         await response.json();
@@ -74,11 +76,11 @@ export default function App() {
 
     try {
       const response = await fetch(
-        `https://v6.exchangerate-api.com/v6/e62dba6edb2f60423c5dcedb/pair/${baseCurrency.code}/${finalCurrency.code}/${baseAmount}`
+        `https://v6.exchangerate-api.com/v6/${EXCHANGE_RATE_API_KEY}/pair/${baseCurrency.code}/${finalCurrency.code}/${baseAmount}`
       );
       const json = await response.json();
 
-      const convertedAmount = json.conversion_result.toFixed(2).toString();
+      const convertedAmount = json.conversion_result.toString();
       setFinalAmount(convertedAmount);
     } catch (e) {
       console.log(e);
@@ -249,16 +251,6 @@ export default function App() {
               placeholderTextColor="#6b7280"
             />
           </YStack>
-
-          <Button
-            themeInverse
-            size="$6"
-            backgroundColor="#4a90e2"
-            onPress={getFinalPrice}
-            borderRadius={15}
-          >
-            <Text style={styles.convertButtonText}>Convert</Text>
-          </Button>
         </YStack>
       </View>
     </TamaguiProvider>
