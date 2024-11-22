@@ -43,3 +43,6 @@ npm install
 * React Native
 * Expo
 * Currency conversion API
+![Screenshot-Home](https://utfs.io/f/AKnG3U5N0Arh4davhWuptXkw7oQFvG5YcrdAn9T6aJhlCebf)
+![Screenshot-Main](https://utfs.io/f/AKnG3U5N0Arh4V9y8LptXkw7oQFvG5YcrdAn9T6aJhlCebfM)
+Video : https://utfs.io/f/AKnG3U5N0Arh4V9y8LptXkw7oQFvG5YcrdAn9T6aJhlCebfM

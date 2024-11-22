@@ -76,7 +76,7 @@ export default function App() {
     if (baseCurrency && finalCurrency && baseAmount) {
       convertCurrency();
     }
-  }, [baseCurrency, finalCurrency]);
+  }, [baseCurrency, finalCurrency,baseAmount]);
 
   if (isLoading) {
     return (
